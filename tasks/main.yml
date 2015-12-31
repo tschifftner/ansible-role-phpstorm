@@ -5,7 +5,7 @@
     state: directory
 
 - name: 'Download and extract phpstorm'
-  command: curl -sL {{ phpstorm_download_url }} | tar zx -C /opt/phpstorm --strip-components 1
+  shell: curl -sL {{ phpstorm_download_url }} | tar zx -C /opt/phpstorm --strip-components 1
   args:
     creates: /opt/phpstorm/bin/phpstorm.sh
 
