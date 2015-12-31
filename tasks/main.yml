@@ -9,7 +9,6 @@
   args:
     creates: /opt/phpstorm/bin/phpstorm.sh
 
-
 - name: 'Create symlink'
   file:
     src: '/opt/phpstorm/bin/phpstorm.sh'
