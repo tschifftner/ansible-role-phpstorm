@@ -1,0 +1,2 @@
+---
+phpstorm_download_url: "https://download.jetbrains.com/webide/PhpStorm-{{ phpstorm_version }}.tar.gz"
