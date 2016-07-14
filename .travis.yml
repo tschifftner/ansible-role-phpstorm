@@ -24,18 +24,36 @@ install:
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
+  # Install ansible-lint
+  - pip install ansible-lint
+
 script:
   # Check the role/playbook's syntax.
-  - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
+  - ansible-playbook -i tests/inventory tests/$SITE --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
+  - ansible-playbook -i tests/inventory tests/$SITE --connection=local --become
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-    ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
+    ansible-playbook -i tests/inventory tests/$SITE --connection=local --become
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  # @todo Verify phpstorm installation
+  # ansible-lint checks for best practice
+  - ansible-lint tests/$SITE
+
+  # Check if phpstorm is installed
+  - test -e /opt/phpstorm/bin/phpstorm.sh
+
+after_failure:
+  # run playbook again to see idempotence failures
+  - ansible-playbook -i tests/inventory tests/$SITE --connection=local --become -vvv
+  - sudo tail -n150 /var/log/syslog
+  - ansible --version
+  - ansible-lint --version
+
+notifications:
+  slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
