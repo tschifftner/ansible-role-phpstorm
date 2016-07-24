@@ -46,6 +46,7 @@ script:
 
   # Check if phpstorm is installed
   - test -e /opt/phpstorm/bin/phpstorm.sh
+  - which phpstorm
 
 after_failure:
   # run playbook again to see idempotence failures

@@ -1,17 +1,21 @@
 ---
+- name: Set installation facts
+  set_fact:
+    phpstorm_installation_dir: '/opt/phpstorm-{{ phpstorm_version }}'
+
 - name: 'Create folder'
   file:
-    path: '/opt/phpstorm'
+    path: '{{ phpstorm_installation_dir }}'
     state: directory
 
 - name: 'Download and extract phpstorm'
-  shell: curl -sL {{ phpstorm_download_url }} | tar zx -C /opt/phpstorm --strip-components 1
+  shell: curl -sL {{ phpstorm_download_url }} | tar zx -C {{ phpstorm_installation_dir }} --strip-components 1
   args:
-    creates: /opt/phpstorm/bin/phpstorm.sh
+    creates: '{{ phpstorm_installation_dir }}/bin/phpstorm.sh'
   tags: ['skip_ansible_lint']
 
 - name: 'Create symlink'
   file:
-    src: '/opt/phpstorm/bin/phpstorm.sh'
+    src: '{{ phpstorm_installation_dir }}/bin/phpstorm.sh'
     dest: '/usr/local/bin/phpstorm'
     state: link
