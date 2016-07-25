@@ -45,7 +45,7 @@ script:
   - ansible-lint tests/$SITE
 
   # Check if phpstorm is installed
-  - test -e /opt/phpstorm/bin/phpstorm.sh
+  - test -e /usr/local/bin/phpstorm
   - which phpstorm
 
 after_failure:
