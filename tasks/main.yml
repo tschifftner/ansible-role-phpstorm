@@ -19,3 +19,9 @@
     src: '{{ phpstorm_installation_dir }}/bin/phpstorm.sh'
     dest: '/usr/local/bin/phpstorm'
     state: link
+
+- name: Set inotify watches limit
+  lineinfile:
+    dest: '/etc/sysctl.conf'
+    regexp: '^fs\.inotify\.max_user_watches'
+    line: 'fs.inotify.max_user_watches = 524288'
