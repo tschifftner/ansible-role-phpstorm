@@ -21,6 +21,7 @@
     state: link
 
 - name: Set inotify watches limit
+  notify: sysctl reload
   lineinfile:
     dest: '/etc/sysctl.conf'
     regexp: '^fs\.inotify\.max_user_watches'
