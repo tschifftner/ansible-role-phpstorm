@@ -26,3 +26,11 @@
     dest: '/etc/sysctl.conf'
     regexp: '^fs\.inotify\.max_user_watches'
     line: 'fs.inotify.max_user_watches = 524288'
+
+- name: Set vmoptions
+  lineinfile:
+    dest: '{{ phpstorm_installation_dir }}/bin/phpstorm64.vmoptions'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^s-Dsun.java2d.renderer=', line: '-Dsun.java2d.renderer=false' }
