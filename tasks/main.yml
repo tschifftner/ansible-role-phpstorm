@@ -33,4 +33,4 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
   with_items:
-    - { regexp: '^s-Dsun.java2d.renderer=', line: '-Dsun.java2d.renderer=false' }
+    - { regexp: '^-Dsun.java2d.renderer=', line: '-Dsun.java2d.renderer=false' }
